@@ -1,0 +1,2 @@
+# laboratorio1C
+LABORATORIO DE COMPUTACION
