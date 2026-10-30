@@ -1,1 +1,143 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Examen de Informática – Lógica de Programación</title>
+<style>
+:root{color-scheme:light dark;--bg:#f6f7fb;--c:#fff;--tx:#1b2330;--mu:#5d6b82;--ac:#1f4e9c;--bd:#d6dbe6;--ok:#1a7f45;--bad:#c0392b}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#10151f;--c:#1a2130;--tx:#e8ecf4;--mu:#9aa7bd;--ac:#6ea0f0;--bd:#2b3548;--ok:#4cc27f;--bad:#ff7b6b}}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}html,body{height:auto}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.w{max-width:760px;margin:0 auto;padding:16px}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:12px;padding:18px;margin-bottom:14px}
+h1{font-size:21px;margin:0 0 4px}.mu{color:var(--mu);font-size:14px}
+.t::before{content:attr(data-t);white-space:pre-wrap}
+.q{font-size:18px;font-weight:600;margin-bottom:12px}
+.o{display:block;width:100%;text-align:left;background:var(--bg);color:var(--tx);border:1px solid var(--bd);border-radius:10px;padding:11px 13px;margin:7px 0;font:inherit;cursor:pointer}
+.o.s{border-color:var(--ac);outline:2px solid var(--ac)}
+.b{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:10px 18px;font:inherit;cursor:pointer}
+.b.g{background:transparent;color:var(--ac);border:1px solid var(--ac)}
+.b:disabled{opacity:.4}
+input[type=text],textarea{width:100%;font:inherit;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx);-webkit-user-select:text;user-select:text}
+textarea{min-height:110px}
+.r{display:flex;gap:8px;align-items:center}.r .o{margin:5px 0;flex:1}
+.bar{height:6px;background:var(--bd);border-radius:4px;margin-bottom:12px}.bar i{display:block;height:100%;background:var(--ac);border-radius:4px}
+.nav{display:flex;justify-content:space-between;gap:8px;margin-top:14px}
+#ban{display:none;background:var(--bad);color:#fff;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-weight:600}
+#wm{position:fixed;inset:0;pointer-events:none;opacity:.07;font-size:22px;font-weight:700;overflow:hidden;line-height:3;word-break:break-all;transform:rotate(-20deg) scale(1.6);z-index:5}
+.hide{display:none}table{width:100%;border-collapse:collapse;font-size:14px}td,th{border-bottom:1px solid var(--bd);padding:6px;text-align:left}
+.tabs{overflow-x:auto}
+</style></head><body>
+<div id="wm" aria-hidden="true"></div>
+<div class="w">
+<div id="ban"></div>
+
+<div id="start" class="card">
+<h1>Examen de Informática · Lógica de Programación</h1>
+<div class="mu">Complejo Educativo Católico Padre Mario Zanconato · Primer año de bachillerato</div>
+<p>25 preguntas: 14 opción múltiple, 4 orden y jerarquía, 4 respuesta corta y 4 análisis de casos.</p>
+<p class="mu"><b>Reglas:</b> el examen se hace en pantalla completa. Salir de la pestaña, cambiar de ventana, copiar o abrir otras herramientas queda registrado y se notifica al docente. A la tercera salida el examen se envía automáticamente.</p>
+<input type="text" id="nm" placeholder="Nombre completo y sección" autocomplete="off">
+<p><button class="b" id="go">Iniciar examen</button></p>
+<div id="dbw" class="mu"></div>
+</div>
+
+<div id="ex" class="hide">
+<div class="bar"><i id="pg"></i></div>
+<div class="card"><div class="mu" id="ty"></div><div id="qb"></div>
+<div class="nav"><button class="b g" id="pv">Anterior</button><button class="b" id="nx">Siguiente</button></div></div>
+</div>
+
+<div id="end" class="card hide"><h1>Examen enviado</h1><p>Tus respuestas fueron registradas. El docente revisará los casos de análisis y te entregará la nota final.</p></div>
+
+</div>
+<script>
+const Q=[
+{t:'m',q:'¿Qué es una variable en programación?',o:['Un espacio de memoria con nombre cuyo valor puede cambiar','Un valor que nunca cambia','Un error del programa','Un tipo de pantalla'],a:0},
+{t:'m',q:'¿Qué tipo de dato usarías para guardar el valor 3.14?',o:['Entero','Real','Lógico','Caracter'],a:1},
+{t:'m',q:'¿Qué tipo de dato guarda un texto como «Hola»?',o:['Real','Entero','Cadena','Lógico'],a:2},
+{t:'m',q:'¿Qué valores puede guardar una variable de tipo Lógico?',o:['Cualquier número','Verdadero o Falso','Solo letras','Fechas'],a:1},
+{t:'m',q:'En PSeInt, ¿qué instrucción muestra un mensaje en pantalla?',o:['Leer','Definir','Escribir','Asignar'],a:2},
+{t:'m',q:'En PSeInt, ¿qué instrucción pide un dato al usuario?',o:['Leer','Escribir','Si','Para'],a:0},
+{t:'m',q:'¿Cómo se cierra un algoritmo en PSeInt que inicia con «Algoritmo»?',o:['Fin','FinAlgoritmo','Terminar','Cerrar'],a:1},
+{t:'m',q:'¿Qué símbolo asigna un valor a una variable en PSeInt?',o:['==','=>','<-','::'],a:2},
+{t:'m',q:'¿Cuál es el resultado de 10 MOD 3?',o:['3','0','1','3.33'],a:2},
+{t:'m',q:'¿Qué estructura permite tomar una decisión según una condición?',o:['Para','Si-Entonces-SiNo','Escribir','Definir'],a:1},
+{t:'m',q:'¿Qué estructura repite instrucciones un número conocido de veces?',o:['Para','Si','Leer','Definir'],a:0},
+{t:'m',q:'¿Cuál es un nombre de variable válido en PSeInt?',o:['2edad','mi nota','total_venta','precio$'],a:2},
+{t:'m',q:'¿Qué es un algoritmo?',o:['Un lenguaje de programación','Una secuencia finita y ordenada de pasos para resolver un problema','Un tipo de variable','Un programa instalado'],a:1},
+{t:'m',q:'¿Qué hace la instrucción «Definir edad Como Entero»?',o:['Lee la edad','Muestra la edad','Declara una variable entera llamada edad','Borra la edad'],a:2},
+{t:'o',q:'Ordena los pasos de un algoritmo que suma dos números:',i:['Definir las variables a, b y suma','Leer a y b','Calcular suma <- a + b','Escribir suma']},
+{t:'o',q:'Ordena la jerarquía de operadores (el primero se resuelve antes):',i:['Paréntesis','Potencia','Multiplicación y división','Suma y resta']},
+{t:'o',q:'Ordena las fases para resolver un problema con programación:',i:['Analizar el problema','Diseñar el algoritmo (pseudocódigo)','Codificar en PSeInt','Probar y depurar']},
+{t:'o',q:'Ordena este programa de PSeInt:',i:['Algoritmo doble','Definir n Como Entero','Leer n','Escribir n*2','FinAlgoritmo']},
+{t:'s',q:'Escribe la palabra de PSeInt que se usa para mostrar un mensaje en pantalla.',k:['escribir']},
+{t:'s',q:'¿Qué tipo de dato usarías para guardar la cantidad de hermanos de una persona?',k:['entero','numerico','numérico']},
+{t:'s',q:'Escribe el símbolo de asignación de PSeInt.',k:['<-']},
+{t:'s',q:'¿Qué estructura repetitiva ejecuta instrucciones mientras una condición sea verdadera?',k:['mientras']},
+{t:'c',q:'Caso 1: Una tienda da 10% de descuento si la compra supera $50. ¿Qué estructura usarías y qué variables necesitas?',k:['si','condicional','decisi']},
+{t:'c',q:'Caso 2: Un programa pide la edad y debe decir si la persona es mayor de edad. ¿Qué tipo de variable usarías para la edad y qué estructura para decidir?',k:['entero']},
+{t:'c',q:'Caso 3: Debes calcular el promedio de 3 notas. ¿Qué tipo de variable usarías para el promedio y por qué?',k:['real','decimal']},
+{t:'c',q:'Caso 4: Debes mostrar los números del 1 al 10. ¿Qué estructura usarías y cómo funcionaría?',k:['para','mientras','repetir','ciclo']}
+];
+const TN={m:'Opción múltiple',o:'Orden y jerarquía',s:'Respuesta corta',c:'Análisis de caso'};
+const $=id=>document.getElementById(id);
+const APPS_URL='https://script.google.com/macros/s/AKfycbws7vkGfANk9qOBEqs2fgafQMdcNCKCOuuN0DlfGf5qaabs9zWjaZtGEYrh6fCshFdS3g/exec';
+function send(o){if(APPS_URL.startsWith('http'))fetch(APPS_URL,{method:'POST',mode:'no-cors',body:JSON.stringify(o)}).catch(()=>{})}
+let EV=[],uid='',A=Q.map(q=>q.t==='o'?sh(q.i):null),cur=0,started=false,done=false,viol=0,db=null,user=null,me='',sid='s'+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+function sh(a){let s=0;const seed=a.join('').length;let r=a.slice();for(let i=r.length-1;i>0;i--){const j=(i*7+seed)%(i+1);[r[i],r[j]]=[r[j],r[i]]}if(r.join()===a.join())r.reverse();return r}
+function T(tag,txt,cls){const e=document.createElement(tag);e.className=(cls||'')+' t';e.setAttribute('data-t',txt);return e}
+function show(){
+ const q=Q[cur],b=$('qb');b.innerHTML='';
+ $('ty').textContent=TN[q.t]+' · '+(cur+1)+' de '+Q.length;$('pg').style.width=((cur+1)/Q.length*100)+'%';
+ b.appendChild(T('div',q.q,'q'));
+ if(q.t==='m')q.o.forEach((x,i)=>{const e=T('button',x,'o'+(A[cur]===i?' s':''));e.onclick=()=>{A[cur]=i;show()};b.appendChild(e)});
+ if(q.t==='o')A[cur].forEach((x,i)=>{const r=document.createElement('div');r.className='r';r.appendChild(T('div',(i+1)+'. '+x,'o'));
+  [['↑',-1],['↓',1]].forEach(([l,d])=>{const u=document.createElement('button');u.className='b g';u.textContent=l;u.disabled=i+d<0||i+d>=A[cur].length;u.onclick=()=>{const a=A[cur];[a[i],a[i+d]]=[a[i+d],a[i]];show()};r.appendChild(u)});b.appendChild(r)});
+ if(q.t==='s'||q.t==='c'){const x=q.t==='s'?document.createElement('input'):document.createElement('textarea');if(q.t==='s')x.type='text';x.value=A[cur]||'';x.placeholder='Escribe tu respuesta';x.autocomplete='off';x.oninput=()=>A[cur]=x.value;x.onpaste=e=>{e.preventDefault();flag('Intento de pegar texto')};b.appendChild(x)}
+ $('pv').disabled=cur===0;$('nx').textContent=cur===Q.length-1?'Enviar examen':'Siguiente';
+}
+$('pv').onclick=()=>{cur--;show()};
+$('nx').onclick=()=>{if(cur<Q.length-1){cur++;show()}else if(confirm('¿Enviar el examen? No podrás cambiar tus respuestas.'))finish()};
+function flag(tipo){
+ if(!started||done)return;viol++;
+ const bn=$('ban');bn.style.display='block';bn.textContent='⚠ Alerta registrada: '+tipo+'. El docente fue notificado ('+viol+'/3).';
+ EV.push({tipo,n:viol,ts:Date.now()});send({kind:'alerta',name:me,tipo,n:viol});
+ if(viol>=3)finish('Auto-envío por 3 alertas');
+}
+async function finish(note){
+ if(done)return;done=true;
+ let sc=0,pend=0;
+ Q.forEach((q,i)=>{const a=A[i];
+  if(q.t==='m'&&a===q.a)sc++;
+  if(q.t==='o'&&a.join('|')===q.i.join('|'))sc++;
+  if(q.t==='s'&&a&&q.k.some(k=>a.toLowerCase().includes(k)))sc++;
+  if(q.t==='c'){pend++;if(a&&a.length>25&&q.k.some(k=>a.toLowerCase().includes(k)))sc++}});
+ const rec={id:sid,name:me,score:sc,total:Q.length,note:note||'',viol,cases:Q.map((q,i)=>q.t==='c'?A[i]||'':null).filter(x=>x!==null),ts:Date.now()};
+ send({kind:'resultado',name:me,score:sc,total:Q.length,viol,note:note||'',cases:rec.cases});
+ try{document.exitFullscreen&&document.fullscreenElement&&document.exitFullscreen()}catch(e){}
+ $('ex').classList.add('hide');$('ban').style.display='none';$('end').classList.remove('hide');
+}
+$('go').onclick=()=>{
+ me=$('nm').value.trim();if(me.length<5){alert('Escribe tu nombre completo y sección.');return}
+ started=true;$('start').classList.add('hide');$('ex').classList.remove('hide');
+ $('wm').textContent=(me+' · ').repeat(120);
+ try{document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen()}catch(e){}
+ show();
+};
+// Anti-copia y detección de salida
+['copy','cut','contextmenu','dragstart','selectstart'].forEach(ev=>document.addEventListener(ev,e=>{if(e.target.closest&&e.target.closest('input,textarea')&&ev==='selectstart')return;e.preventDefault();if(ev==='copy'||ev==='cut')flag('Intento de copiar')}));
+document.addEventListener('keydown',e=>{
+ const k=e.key.toLowerCase();
+ if((e.ctrlKey||e.metaKey)&&['c','x','a','u','s','p','f','l'].includes(k)&&!(k==='a'&&e.target.matches('input,textarea'))){e.preventDefault();flag('Atajo de teclado bloqueado (Ctrl+'+k.toUpperCase()+')')}
+ if(k==='f12'||(e.ctrlKey&&e.shiftKey&&['i','j','c'].includes(k))){e.preventDefault();flag('Intento de abrir herramientas de desarrollador')}
+ if(k==='printscreen'){flag('Captura de pantalla');try{navigator.clipboard.writeText('')}catch(_){}}
+});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)flag('Salió de la pestaña del examen')});
+window.addEventListener('blur',()=>{if(!document.hidden)flag('Cambió de ventana o aplicación')});
+document.addEventListener('fullscreenchange',()=>{if(started&&!done&&!document.fullscreenElement)flag('Salió de pantalla completa')});
+window.addEventListener('beforeprint',()=>flag('Intento de imprimir'));
+window.addEventListener('beforeunload',e=>{if(started&&!done){e.preventDefault();e.returnValue=''}});
+if(!APPS_URL.startsWith('http'))$('dbw').textContent='Aviso: falta configurar el envío de alertas al docente.';
+</script></body></html>
 
